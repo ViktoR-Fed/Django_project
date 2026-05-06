@@ -1,0 +1,111 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-plus-circle"></i> Создать новую публикацию
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" id="blogForm">
+                        {% csrf_token %}
+
+                        <!-- Заголовок -->
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">
+                                <i class="bi bi-heading"></i> Заголовок <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                   name="{{ form.title.name }}"
+                                   id="{{ form.title.id_for_label }}"
+                                   class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+                                   value="{{ form.title.value|default:'' }}"
+                                   maxlength="200"
+                                   placeholder="Введите заголовок поста">
+                            {% if form.title.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                {{ form.title.help_text }}
+                            </div>
+                        </div>
+
+                        <!-- Содержимое -->
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">
+                                <i class="bi bi-file-text"></i> Содержимое <span class="text-danger">*</span>
+                            </label>
+                            <textarea name="{{ form.content.name }}"
+                                      id="{{ form.content.id_for_label }}"
+                                      class="form-control {% if form.content.errors %}is-invalid{% endif %}"
+                                      rows="10"
+                                      placeholder="Введите текст публикации...">{{ form.content.value|default:'' }}</textarea>
+                            {% if form.content.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.content.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                {{ form.content.help_text }}
+                            </div>
+                        </div>
+
+                        <!-- Фото -->
+                        <div class="mb-3">
+                            <label for="{{ form.photo.id_for_label }}" class="form-label">
+                                <i class="bi bi-image"></i> Фотография
+                            </label>
+                            <input type="file"
+                                   name="{{ form.photo.name }}"
+                                   id="{{ form.photo.id_for_label }}"
+                                   class="form-control {% if form.photo.errors %}is-invalid{% endif %}"
+                                   accept="image/*">
+                            {% if form.photo.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.photo.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                {{ form.photo.help_text }} Поддерживаемые форматы: JPG, PNG, GIF
+                            </div>
+                        </div>
+
+                        <!-- Признак публикации -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox"
+                                   name="{{ form.is_publication.name }}"
+                                   id="{{ form.is_publication.id_for_label }}"
+                                   class="form-check-input {% if form.is_publication.errors %}is-invalid{% endif %}"
+                                   {% if form.is_publication.value %}checked{% endif %}>
+                            <label for="{{ form.is_publication.id_for_label }}" class="form-check-label">
+                                <i class="bi bi-check-circle"></i> Опубликовать сразу
+                            </label>
+                            {% if form.is_publication.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.is_publication.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                {{ form.is_publication.help_text }}
+                            </div>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Отмена
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Сохранить публикацию
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+{% endblock %}
