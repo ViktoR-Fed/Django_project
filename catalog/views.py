@@ -15,7 +15,7 @@ from catalog.models import Product
 
 class ProductTemplateView(TemplateView):
     model = Product
-    template_name = "home.html"
+    template_name = "catalog/home.html"
 
 
 class ProductView(TemplateView):
