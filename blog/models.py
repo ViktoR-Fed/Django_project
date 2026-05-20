@@ -38,7 +38,6 @@ class Blog(models.Model):
         default=0,
     )
 
-
     class Meta:
         verbose_name = "Публикация"
         verbose_name_plural = "Публикации"

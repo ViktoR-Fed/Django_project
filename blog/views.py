@@ -1,13 +1,20 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
+
 from blog.models import Blog
 
 
 class BlogCreateView(CreateView):
     model = Blog
     fields = ("title", "content", "photo")
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy("blog:blog_list")
 
 
 class BlogListView(ListView):
@@ -21,6 +28,7 @@ class BlogListView(ListView):
         """
         return Blog.objects.filter(is_publication=True)
 
+
 class BlogDetailView(DetailView):
     model = Blog
     template_name = "blog/blog_detail.html"
@@ -31,14 +39,16 @@ class BlogDetailView(DetailView):
         self.object.save()
         return self.object
 
+
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ("title", "content", "photo")
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy("blog:blog_list")
 
     def get_success_url(self):
-        return reverse('blog:blog_detail', args=[self.kwargs.get('pk')])
+        return reverse("blog:blog_detail", args=[self.kwargs.get("pk")])
+
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy("blog:blog_list")
