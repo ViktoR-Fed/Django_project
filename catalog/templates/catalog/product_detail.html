@@ -17,7 +17,10 @@
               <div class="btn-group">
                 <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">Назад</a>
               </div>
-
+              {% if perms.catalog.can_unpublish_product %}
+              <div class="btn-group">
+                <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk%}" role="button">Отменить публикацию</a></div>
+              {% endif %}
             </div>
           </div>
         </div>

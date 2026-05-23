@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import SET_NULL
 
+from users.models import User
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -65,10 +67,26 @@ class Product(models.Model):
         help_text="Укажите дату последнего изменения продукта",
     )
 
+    publication_status = models.BooleanField(
+        verbose_name="Статус публикации", default=False
+    )
+
+    owner = models.ForeignKey(
+        User,
+        verbose_name="Владелец",
+        help_text="Укажите владельца продукта",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["category", "name"]
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+        ]
 
     def __str__(self):
         return self.name
