@@ -29,7 +29,16 @@ class StileFormMixin:
 class ProductForm(StileFormMixin, ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = (
+            "name",
+            "description",
+            "photo",
+            "category",
+            "price",
+            "created_at",
+            "updated_at",
+            "publication_status",
+        )
 
     def clean_price(self):
         price = self.cleaned_data["price"]
@@ -51,3 +60,9 @@ class ProductForm(StileFormMixin, ModelForm):
                     "Используется запрещенное слово, измените содержимое"
                 )
         return description
+
+
+class ProductModeratorForm(StileFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ("publication_status",)

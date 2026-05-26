@@ -161,7 +161,9 @@
         <h1 class="fw-light">Продукты</h1>
         <p class="lead text-body-secondary">Наш магазин будет расширять свой функционал и ассортименты в дальнейшем.</p>
         <div class="btn-group">
+          {% if user.is_authenticated %}
           <a class="btn btn-primary" href="{% url 'catalog:product_create' %}" role="button">Добавить продукт</a>
+          {% endif %}
         </div>
       </div>
     </div>
